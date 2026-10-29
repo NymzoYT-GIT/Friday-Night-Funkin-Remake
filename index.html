@@ -12,33 +12,72 @@
   <main id="app">
     <header class="topbar">
       <span class="logo">FNF!</span>
-      <span class="subtitle">FRIDAY NIGHT FUNKIN' REMIX</span>
+      <span class="subtitle">RHYTHM REMIX</span>
     </header>
 
     <section class="menu" id="menu">
-      <p class="eyebrow">READY TO ROCK?</p>
+      <p class="eyebrow">ARE YOU READY?</p>
       <h1>FRIDAY NIGHT<br><span>FUNKIN'</span></h1>
-      <p class="description">Hit the notes. Keep the beat.</p>
+      <p class="description">Feel the beat. Hit the notes.</p>
       <button id="play">START GAME</button>
-      <p class="hint">Use ← ↓ ↑ → to hit the notes</p>
+      <p class="hint">Arrow keys to sing</p>
     </section>
 
     <section class="game hidden" id="game">
       <div class="stats">
-        <span> SCORE <strong id="score">0</strong></span>
-        <span> COMBO <strong id="combo">0</strong></span>
-        <span> ACCURACY <strong id="accuracy">100%</strong></span>
+        <span>SCORE <strong id="score">0</strong></span>
+        <span>COMBO <strong id="combo">0</strong></span>
+        <span>ACCURACY <strong id="accuracy">100%</strong></span>
       </div>
+
       <div class="stage">
-        <div class="character">♪</div>
-        <div class="lanes" id="lanes">
+        <div class="skyline"></div>
+        <div class="spotlight light-blue"></div>
+        <div class="spotlight light-pink"></div>
+
+        <div class="speaker-stack">
+          <div class="speaker"><div class="woofer"></div></div>
+          <div class="speaker"><div class="woofer"></div></div>
+        </div>
+
+        <div class="girlfriend character" id="girlfriend">
+          <div class="hair"></div>
+          <div class="head">
+            <div class="eye"></div>
+            <div class="eye"></div>
+            <div class="smile"></div>
+          </div>
+          <div class="body-shape"></div>
+          <div class="leg leg-left"></div>
+          <div class="leg leg-right"></div>
+        </div>
+
+        <div class="boyfriend character" id="boyfriend">
+          <div class="cap"></div>
+          <div class="head">
+            <div class="fringe"></div>
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+          <div class="shirt"><span>♫</span></div>
+          <div class="arm"></div>
+          <div class="microphone">●</div>
+          <div class="leg leg-left"></div>
+          <div class="leg leg-right"></div>
+          <div class="shoe shoe-left"></div>
+          <div class="shoe shoe-right"></div>
+        </div>
+
+        <div class="lanes">
           <div class="receptors">
             <span>←</span><span>↓</span><span>↑</span><span>→</span>
           </div>
           <div id="notes"></div>
         </div>
+
         <div id="judgment">READY?</div>
       </div>
+
       <div class="progress"><div id="progressFill"></div></div>
       <button id="back">BACK TO MENU</button>
     </section>
