@@ -22,24 +22,23 @@ const laneKeys = [
   "ArrowRight"
 ];
 
+const noteSpeed = 240;
+const noteInterval = 650;
+const approachTime = 1300;
+const hitPosition = 190;
+const songDuration = 45000;
+
 let notes = [];
 let score = 0;
 let combo = 0;
 let hits = 0;
 let attempts = 0;
 let misses = 0;
-
 let startTime = 0;
 let animationFrame = 0;
 let running = false;
-let songDuration = 45000;
-let lastPoseTimer = null;
+let poseTimer = null;
 let lastGirlfriendBeat = 0;
-
-const noteSpeed = 240;
-const noteInterval = 650;
-const hitPosition = 62;
-const approachTime = 1300;
 
 function resetGame() {
   notes = [];
@@ -55,7 +54,6 @@ function resetGame() {
   comboElement.textContent = "0";
   accuracyElement.textContent = "100%";
   judgmentElement.textContent = "READY?";
-
   progressFill.style.width = "0%";
 
   boyfriend.classList.remove(
@@ -65,28 +63,21 @@ function resetGame() {
     "singing-right"
   );
 
-  clearTimeout(lastPoseTimer);
+  girlfriend.style.filter = "";
+  clearTimeout(poseTimer);
 }
 
 function createChart() {
-  // A fixed practice chart so the arrows have predictable timing.
+  // Fixed practice chart with four playable lanes.
   const pattern = [
-    0, 1, 2, 3,
-    0, 2, 1, 3,
-    0, 1, 0, 2,
-    3, 2, 1, 3,
-    1, 0, 2, 3,
-    0, 1, 2, 1,
-    3, 0, 3, 2,
-    1, 2, 0, 3,
-    0, 1, 2, 3,
-    2, 1, 3, 0,
-    1, 3, 2, 0,
-    3, 2, 1, 0,
-    0, 2, 3, 1,
-    2, 0, 1, 3,
-    1, 2, 0, 3,
-    3, 1, 2, 0
+    0, 1, 2, 3, 0, 2, 1, 3,
+    0, 1, 0, 2, 3, 2, 1, 3,
+    1, 0, 2, 3, 0, 1, 2, 1,
+    3, 0, 3, 2, 1, 2, 0, 3,
+    0, 1, 2, 3, 2, 1, 3, 0,
+    1, 3, 2, 0, 3, 2, 1, 0,
+    0, 2, 3, 1, 2, 0, 1, 3,
+    1, 2, 0, 3, 3, 1, 2, 0
   ];
 
   notes = pattern.map((lane, i) => ({
@@ -108,6 +99,7 @@ function startGame() {
 
   for (const note of notes) {
     const element = document.createElement("div");
+
     element.className = "note";
     element.dataset.lane = note.lane;
     element.textContent = laneSymbols[note.lane];
@@ -119,6 +111,7 @@ function startGame() {
 
   running = true;
   startTime = performance.now();
+  lastGirlfriendBeat = 0;
 
   animationFrame = requestAnimationFrame(updateGame);
 }
@@ -132,13 +125,14 @@ function updateGame(now) {
     if (note.judged) continue;
 
     const timeUntilHit = note.time - elapsed;
-    const y =
-      hitPosition +
-      (noteSpeed * (approachTime - timeUntilHit)) / 1000;
+
+    // Notes descend toward the receptors at the bottom.
+    const y = hitPosition -
+      (timeUntilHit * noteSpeed) / 1000;
 
     note.element.style.transform = `translateY(${y}px)`;
 
-    // Count a miss if the player lets the note pass.
+    // Miss a note only after it passes the target.
     if (timeUntilHit < -180) {
       note.judged = true;
       note.element.remove();
@@ -155,10 +149,8 @@ function updateGame(now) {
   progressFill.style.width =
     `${Math.min(100, elapsed / songDuration * 100)}%`;
 
-  // Girlfriend's gentle idle animation is in CSS.
-  // Give her an occasional extra bounce during gameplay.
   if (elapsed - lastGirlfriendBeat > 900) {
-    girlfriend.style.filter = "brightness(1.15)";
+    girlfriend.style.filter = "brightness(1.2)";
     setTimeout(() => {
       girlfriend.style.filter = "";
     }, 130);
@@ -183,15 +175,12 @@ function sing(lane) {
   ];
 
   boyfriend.classList.remove(...poses);
-
-  // Force a fresh pose even when the same arrow is hit twice.
   void boyfriend.offsetWidth;
-
   boyfriend.classList.add(poses[lane]);
 
-  clearTimeout(lastPoseTimer);
+  clearTimeout(poseTimer);
 
-  lastPoseTimer = setTimeout(() => {
+  poseTimer = setTimeout(() => {
     boyfriend.classList.remove(...poses);
   }, 190);
 }
@@ -202,7 +191,6 @@ function pressLane(lane) {
   sing(lane);
 
   const elapsed = performance.now() - startTime;
-
   let closest = null;
   let closestDistance = Infinity;
 
@@ -217,12 +205,10 @@ function pressLane(lane) {
     }
   }
 
-  // Pressing an empty lane counts as a miss.
   if (!closest || closestDistance > 180) {
     attempts++;
     misses++;
     combo = 0;
-
     judgmentElement.textContent = "MISS!";
     updateStats();
     return;
@@ -252,6 +238,7 @@ function pressLane(lane) {
 function updateStats() {
   scoreElement.textContent = score.toLocaleString();
   comboElement.textContent = combo;
+
   accuracyElement.textContent =
     `${Math.round(hits / Math.max(1, attempts) * 100)}%`;
 }
@@ -260,21 +247,21 @@ function endGame() {
   running = false;
   cancelAnimationFrame(animationFrame);
 
-  judgmentElement.textContent = `SONG COMPLETE! SCORE: ${score}`;
-  progressFill.style.width = "100%";
-
   for (const note of notes) {
-    if (!note.judged) {
-      note.element.remove();
-      note.judged = true;
-    }
+    note.element.remove();
+    note.judged = true;
   }
+
+  judgmentElement.textContent =
+    `SONG COMPLETE! SCORE: ${score}`;
+
+  progressFill.style.width = "100%";
 }
 
 function returnToMenu() {
   running = false;
   cancelAnimationFrame(animationFrame);
-  clearTimeout(lastPoseTimer);
+  clearTimeout(poseTimer);
 
   menu.classList.remove("hidden");
   game.classList.add("hidden");
@@ -287,7 +274,7 @@ function returnToMenu() {
   );
 }
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", event => {
   const lane = laneKeys.indexOf(event.key);
 
   if (lane !== -1 && running) {
