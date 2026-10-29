@@ -294,6 +294,112 @@
                 DISMISS
             </button>
         </div>
+        <!-- GAMEPLAY SCREEN -->
+<section id="gameplay-screen" class="screen gameplay-screen" aria-label="Rhythm gameplay" hidden>
+  <div class="gameplay-topbar">
+    <button id="gameplay-back-button" class="secondary-button" type="button">
+      ← BACK
+    </button>
+
+    <div class="song-info">
+      <span id="gameplay-song-title">TEST SONG</span>
+      <span id="gameplay-difficulty">NORMAL</span>
+    </div>
+
+    <div class="gameplay-status">
+      <span id="gameplay-score">Score: 0</span>
+      <span id="gameplay-accuracy">Accuracy: 100%</span>
+    </div>
+  </div>
+
+  <div class="gameplay-stage">
+    <div class="stage-character opponent-character" aria-label="Opponent placeholder">
+      <div class="character-hair"></div>
+      <div class="character-face">
+        <span class="character-eye left-eye"></span>
+        <span class="character-eye right-eye"></span>
+        <span class="character-mouth"></span>
+      </div>
+      <div class="character-body"></div>
+      <span class="character-label">OPPONENT</span>
+    </div>
+
+    <div class="stage-character player-character" aria-label="Player placeholder">
+      <div class="character-hair"></div>
+      <div class="character-face">
+        <span class="character-eye left-eye"></span>
+        <span class="character-eye right-eye"></span>
+        <span class="character-mouth"></span>
+      </div>
+      <div class="character-body"></div>
+      <span class="character-label">PLAYER</span>
+    </div>
+  </div>
+
+  <div class="rhythm-area">
+    <div class="lane-container" id="lane-container" aria-label="Four rhythm lanes">
+      <div class="rhythm-lane" data-lane="0">
+        <div class="note-receptor receptor-left" data-receptor="0">←</div>
+      </div>
+
+      <div class="rhythm-lane" data-lane="1">
+        <div class="note-receptor receptor-down" data-receptor="1">↓</div>
+      </div>
+
+      <div class="rhythm-lane" data-lane="2">
+        <div class="note-receptor receptor-up" data-receptor="2">↑</div>
+      </div>
+
+      <div class="rhythm-lane" data-lane="3">
+        <div class="note-receptor receptor-right" data-receptor="3">→</div>
+      </div>
+    </div>
+
+    <div id="judgement-display" class="judgement-display" aria-live="polite"></div>
+    <div id="combo-display" class="combo-display">READY?</div>
+  </div>
+
+  <div class="gameplay-bottombar">
+    <div class="health-bar" aria-label="Health">
+      <div id="health-fill" class="health-fill"></div>
+    </div>
+
+    <span id="gameplay-combo">Combo: 0</span>
+    <span id="gameplay-misses">Misses: 0</span>
+
+    <button id="gameplay-pause-button" class="secondary-button" type="button">
+      PAUSE
+    </button>
+  </div>
+
+  <div id="gameplay-pause-overlay" class="gameplay-overlay" hidden>
+    <div class="overlay-panel">
+      <h2>PAUSED</h2>
+      <button id="gameplay-resume-button" class="primary-button" type="button">
+        RESUME
+      </button>
+      <button id="gameplay-restart-button" class="secondary-button" type="button">
+        RESTART
+      </button>
+      <button id="gameplay-quit-button" class="secondary-button" type="button">
+        QUIT SONG
+      </button>
+    </div>
+  </div>
+
+  <div id="gameplay-results-overlay" class="gameplay-overlay" hidden>
+    <div class="overlay-panel">
+      <h2 id="gameplay-results-title">SONG COMPLETE!</h2>
+      <p id="gameplay-results-summary">Your results will appear here.</p>
+      <button id="gameplay-retry-button" class="primary-button" type="button">
+        RETRY
+      </button>
+      <button id="gameplay-results-back-button" class="secondary-button" type="button">
+        BACK TO MENU
+      </button>
+    </div>
+  </div>
+</section>
 
     </main>
 
