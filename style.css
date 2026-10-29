@@ -468,7 +468,8 @@ h1 span {
 .receptors {
   position: absolute;
   z-index: 2;
-  top: 5px;
+  bottom: 5px;
+  top: auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 4px;
