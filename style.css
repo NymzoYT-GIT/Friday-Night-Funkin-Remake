@@ -792,3 +792,457 @@ select:focus-visible {
         transition-duration: 0.01ms !important;
     }
 }
+/* ========================================
+   RHYTHM GAMEPLAY SCREEN
+======================================== */
+
+.gameplay-screen {
+  position: relative;
+  width: min(1100px, 96vw);
+  min-height: 680px;
+  margin: 0 auto;
+  padding: 18px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #24446d;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 50% 35%, #18274d 0%, transparent 65%),
+    linear-gradient(160deg, #101a36, #080d1b 75%);
+  box-shadow: 0 0 35px rgba(8, 217, 244, 0.12);
+  color: #eef7ff;
+}
+
+.gameplay-screen[hidden],
+.gameplay-overlay[hidden] {
+  display: none !important;
+}
+
+.gameplay-topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #263b60;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+#gameplay-song-title {
+  color: #08d9f4;
+  font-size: 1.15rem;
+}
+
+#gameplay-difficulty {
+  color: #ff65ce;
+  font-size: 0.75rem;
+}
+
+.gameplay-status {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.8rem;
+  text-align: right;
+  color: #c6dcff;
+}
+
+.secondary-button,
+.primary-button {
+  padding: 10px 15px;
+  border: 1px solid #315477;
+  border-radius: 8px;
+  color: #eef7ff;
+  background: #102744;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.primary-button {
+  border-color: #08d9f4;
+  background: linear-gradient(135deg, #087eaa, #5430a4);
+  box-shadow: 0 0 14px rgba(8, 217, 244, 0.15);
+}
+
+.secondary-button:hover,
+.primary-button:hover {
+  transform: translateY(-2px);
+  border-color: #08d9f4;
+  box-shadow: 0 0 16px rgba(8, 217, 244, 0.2);
+}
+
+.secondary-button:focus-visible,
+.primary-button:focus-visible {
+  outline: 2px solid #ff65ce;
+  outline-offset: 3px;
+}
+
+/* STAGE AND CHARACTERS */
+
+.gameplay-stage {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 205px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(30, 42, 78, 0.1), rgba(8, 13, 27, 0.7)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 79px,
+      rgba(86, 115, 173, 0.08) 80px
+    );
+}
+
+.gameplay-stage::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #08d9f4, #a52cff, #ff65ce);
+  content: "";
+  box-shadow: 0 0 14px rgba(8, 217, 244, 0.5);
+}
+
+.stage-character {
+  position: relative;
+  display: flex;
+  width: 100px;
+  height: 155px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  animation: character-bop 0.65s ease-in-out infinite alternate;
+}
+
+.player-character {
+  animation-delay: 0.2s;
+}
+
+.character-hair {
+  position: absolute;
+  top: 4px;
+  width: 66px;
+  height: 39px;
+  border: 2px solid #14233d;
+  border-radius: 48% 48% 25% 25%;
+  background: #08d9f4;
+  transform: rotate(-8deg);
+}
+
+.opponent-character .character-hair {
+  background: #a52cff;
+  transform: rotate(8deg);
+}
+
+.character-face {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 59px;
+  height: 58px;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 23px;
+  border: 2px solid #17243b;
+  border-radius: 42% 42% 45% 45%;
+  background: #ffd5b4;
+}
+
+.character-eye {
+  width: 6px;
+  height: 9px;
+  border-radius: 50%;
+  background: #111a30;
+}
+
+.character-mouth {
+  position: absolute;
+  bottom: 12px;
+  width: 15px;
+  height: 5px;
+  border-bottom: 2px solid #a54c59;
+  border-radius: 50%;
+}
+
+.character-body {
+  width: 61px;
+  height: 65px;
+  margin-top: 3px;
+  border: 2px solid #17243b;
+  border-radius: 12px 12px 4px 4px;
+  background: linear-gradient(135deg, #087eaa, #08d9f4);
+}
+
+.opponent-character .character-body {
+  background: linear-gradient(135deg, #5423a4, #a52cff);
+}
+
+.character-label {
+  position: absolute;
+  bottom: -1px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #d7e8ff;
+}
+
+@keyframes character-bop {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-7px);
+  }
+}
+
+/* FOUR-LANE RHYTHM AREA */
+
+.rhythm-area {
+  position: relative;
+  width: min(420px, 100%);
+  height: 300px;
+  margin: 15px auto 12px;
+  overflow: hidden;
+  border: 1px solid #263d62;
+  border-radius: 12px;
+  background: rgba(4, 9, 21, 0.75);
+  box-shadow: inset 0 0 25px rgba(8, 217, 244, 0.06);
+}
+
+.lane-container {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rhythm-lane {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(111, 145, 193, 0.18);
+  background: rgba(20, 35, 62, 0.15);
+}
+
+.rhythm-lane:nth-child(even) {
+  background: rgba(70, 42, 107, 0.1);
+}
+
+.rhythm-lane:last-child {
+  border-right: 0;
+}
+
+.note-receptor {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  display: flex;
+  width: 58px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid currentColor;
+  border-radius: 13px;
+  font-size: 2rem;
+  font-weight: 900;
+  transform: translateX(-50%);
+  background: rgba(9, 17, 34, 0.95);
+  text-shadow: 0 0 12px currentColor;
+  box-shadow: 0 0 12px currentColor, inset 0 0 12px rgba(255, 255, 255, 0.04);
+}
+
+.receptor-left {
+  color: #08d9f4;
+}
+
+.receptor-down {
+  color: #3985ff;
+}
+
+.receptor-up {
+  color: #a52cff;
+}
+
+.receptor-right {
+  color: #ff65ce;
+}
+
+.note-receptor.hit {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-50%) scale(1.12);
+}
+
+.judgement-display {
+  position: absolute;
+  z-index: 3;
+  top: 94px;
+  right: 0;
+  left: 0;
+  min-height: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 1000;
+  letter-spacing: 2px;
+  color: #08d9f4;
+  text-shadow: 0 0 12px currentColor;
+  pointer-events: none;
+}
+
+.combo-display {
+  position: absolute;
+  z-index: 3;
+  top: 125px;
+  right: 0;
+  left: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #eef7ff;
+  text-shadow: 0 0 10px rgba(165, 44, 255, 0.8);
+  pointer-events: none;
+}
+
+/* HUD AND HEALTH */
+
+.gameplay-bottombar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #263b60;
+  color: #d4e4ff;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.health-bar {
+  flex: 1 1 150px;
+  height: 16px;
+  overflow: hidden;
+  border: 1px solid #375477;
+  border-radius: 20px;
+  background: #260f2a;
+}
+
+.health-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #08d9a0, #08d9f4);
+  box-shadow: 0 0 12px rgba(8, 217, 160, 0.4);
+  transition: width 0.15s linear;
+}
+
+/* PAUSE AND RESULTS OVERLAYS */
+
+.gameplay-overlay {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(3, 7, 18, 0.86);
+  backdrop-filter: blur(8px);
+}
+
+.overlay-panel {
+  display: flex;
+  width: min(360px, 100%);
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid #315477;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #111d39, #090e1d);
+  text-align: center;
+  box-shadow: 0 0 35px rgba(8, 217, 244, 0.12);
+}
+
+.overlay-panel h2 {
+  margin: 0 0 8px;
+  color: #08d9f4;
+  letter-spacing: 3px;
+}
+
+.overlay-panel p {
+  color: #c6dcff;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE LAYOUT */
+
+@media (max-width: 650px) {
+  .gameplay-screen {
+    width: 100%;
+    min-height: 0;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .gameplay-topbar {
+    justify-content: center;
+  }
+
+  .gameplay-status {
+    text-align: center;
+  }
+
+  .gameplay-stage {
+    height: 165px;
+  }
+
+  .stage-character {
+    transform: scale(0.85);
+    transform-origin: bottom center;
+  }
+
+  .rhythm-area {
+    height: 280px;
+  }
+
+  .note-receptor {
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+  }
+
+  .gameplay-bottombar {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-character {
+    animation: none;
+  }
+
+  .secondary-button,
+  .primary-button,
+  .health-fill {
+    transition: none;
+  }
+}
