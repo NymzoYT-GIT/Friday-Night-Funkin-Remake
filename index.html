@@ -1,413 +1,48 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="A browser-based rhythm game inspired by Friday Night Funkin'."
-    >
-
-    <meta name="theme-color" content="#101020">
-
-    <title>Friday Night Funkin' - Browser Edition</title>
-
-    <link rel="stylesheet" href="./style.css">
-    <script src="./js/main.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17132c">
+  <title>Friday Night Funkin' Remake</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <main id="game-container">
+  <main id="app">
+    <header class="topbar">
+      <span class="logo">FNF!</span>
+      <span class="subtitle">FRIDAY NIGHT FUNKIN' REMIX</span>
+    </header>
 
-        <!-- Loading screen -->
-        <section id="loading-screen" class="screen active">
-            <div class="loading-content">
-                <div class="loading-logo">FNF</div>
+    <section class="menu" id="menu">
+      <p class="eyebrow">READY TO ROCK?</p>
+      <h1>FRIDAY NIGHT<br><span>FUNKIN'</span></h1>
+      <p class="description">Hit the notes. Keep the beat.</p>
+      <button id="play">START GAME</button>
+      <p class="hint">Use ← ↓ ↑ → to hit the notes</p>
+    </section>
 
-                <h1>LOADING GAME</h1>
-
-                <div class="loading-track">
-                    <div id="loading-bar"></div>
-                </div>
-
-                <p id="loading-message">Preparing the game...</p>
-            </div>
-        </section>
-
-        <!-- Main menu -->
-        <section id="main-menu" class="screen">
-            <div class="background-shape shape-one"></div>
-            <div class="background-shape shape-two"></div>
-
-            <div class="menu-content">
-                <div class="game-logo">
-                    <span class="logo-top">FRIDAY NIGHT</span>
-                    <span class="logo-bottom">RHYTHM BATTLE</span>
-                </div>
-
-                <p class="subtitle">
-                    A BROWSER-BASED RHYTHM GAME
-                </p>
-
-                <nav class="menu-buttons" aria-label="Main menu">
-                    <button
-                        class="menu-button primary"
-                        data-screen="mode-menu"
-                    >
-                        PLAY
-                    </button>
-
-                    <button
-                        class="menu-button"
-                        data-screen="settings-menu"
-                    >
-                        SETTINGS
-                    </button>
-
-                    <button
-                        class="menu-button"
-                        data-screen="credits-menu"
-                    >
-                        CREDITS
-                    </button>
-                </nav>
-
-                <div class="character-preview" aria-hidden="true">
-                    <div class="character character-player">
-                        <div class="character-hair"></div>
-                        <div class="character-face">
-                            <span class="eye eye-left"></span>
-                            <span class="eye eye-right"></span>
-                            <span class="mouth"></span>
-                        </div>
-                        <div class="character-body"></div>
-                    </div>
-
-                    <div class="character character-opponent">
-                        <div class="opponent-hair"></div>
-                        <div class="opponent-face">
-                            <span class="eye eye-left"></span>
-                            <span class="eye eye-right"></span>
-                            <span class="mouth"></span>
-                        </div>
-                        <div class="opponent-body"></div>
-                    </div>
-                </div>
-
-                <p class="footer-text">
-                    ORIGINAL BROWSER GAME PROJECT
-                </p>
-            </div>
-        </section>
-
-        <!-- Game mode selection -->
-        <section id="mode-menu" class="screen">
-            <div class="panel">
-                <h1>SELECT MODE</h1>
-
-                <p class="panel-description">
-                    Choose how you want to play.
-                </p>
-
-                <button
-                    class="menu-button primary"
-                    data-screen="song-menu"
-                >
-                    FREEPLAY
-                </button>
-
-                <button
-                    class="menu-button"
-                    data-screen="story-menu"
-                >
-                    STORY MODE
-                </button>
-
-                <button
-                    class="menu-button back-button"
-                    data-screen="main-menu"
-                >
-                    BACK
-                </button>
-            </div>
-        </section>
-
-        <!-- Freeplay / song selection -->
-        <section id="song-menu" class="screen">
-            <div class="panel">
-                <h1>FREEPLAY</h1>
-
-                <p class="panel-description">
-                    Choose a song to begin.
-                </p>
-
-                <div id="song-list" class="song-list">
-                    <!-- Songs will be registered here in a later phase. -->
-                </div>
-
-                <div id="song-message" class="notice">
-                    Song selection is being prepared.
-                </div>
-
-                <button
-                    class="menu-button back-button"
-                    data-screen="mode-menu"
-                >
-                    BACK
-                </button>
-            </div>
-        </section>
-
-        <!-- Story mode -->
-        <section id="story-menu" class="screen">
-            <div class="panel">
-                <h1>STORY MODE</h1>
-
-                <p class="panel-description">
-                    Battle your way through a series of musical weeks.
-                </p>
-
-                <div class="notice">
-                    Story progression will be implemented in a later phase.
-                </div>
-
-                <button
-                    class="menu-button back-button"
-                    data-screen="mode-menu"
-                >
-                    BACK
-                </button>
-            </div>
-        </section>
-
-        <!-- Settings -->
-        <section id="settings-menu" class="screen">
-            <div class="panel">
-                <h1>SETTINGS</h1>
-
-                <p class="panel-description">
-                    Configure your game experience.
-                </p>
-
-                <div class="setting-row">
-                    <label for="master-volume">
-                        Master Volume
-                    </label>
-
-                    <input
-                        id="master-volume"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="80"
-                    >
-
-                    <span id="volume-value">80%</span>
-                </div>
-
-                <div class="setting-row">
-                    <label for="visual-effects">
-                        Visual Effects
-                    </label>
-
-                    <input
-                        id="visual-effects"
-                        type="checkbox"
-                        checked
-                    >
-                </div>
-
-                <div class="setting-row">
-                    <label for="quality-setting">
-                        Graphics Quality
-                    </label>
-
-                    <select id="quality-setting">
-                        <option value="low">Low</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-
-                <p class="notice">
-                    These initial settings are interface controls.
-                    Their effects on gameplay and audio will be connected
-                    in later phases.
-                </p>
-
-                <button
-                    class="menu-button back-button"
-                    data-screen="main-menu"
-                >
-                    BACK
-                </button>
-            </div>
-        </section>
-
-        <!-- Credits -->
-        <section id="credits-menu" class="screen">
-            <div class="panel">
-                <h1>CREDITS</h1>
-
-                <p>
-                    <strong>Project:</strong>
-                    Browser Rhythm Game
-                </p>
-
-                <p>
-                    <strong>Technology:</strong>
-                    HTML5, CSS3, JavaScript
-                </p>
-
-                <p>
-                    <strong>Original inspiration:</strong>
-                    Friday Night Funkin'
-                </p>
-
-                <p class="notice">
-                    This is an unofficial fan-inspired project.
-                    It is not the official Friday Night Funkin' game.
-                    Original placeholder graphics are used in this stage.
-                </p>
-
-                <button
-                    class="menu-button back-button"
-                    data-screen="main-menu"
-                >
-                    BACK
-                </button>
-            </div>
-        </section>
-
-        <!-- General error display -->
-        <div
-            id="error-banner"
-            class="error-banner"
-            role="alert"
-            aria-live="assertive"
-            hidden
-        >
-            <strong>Something went wrong.</strong>
-            <p id="error-message"></p>
-            <button id="error-dismiss" type="button">
-                DISMISS
-            </button>
+    <section class="game hidden" id="game">
+      <div class="stats">
+        <span> SCORE <strong id="score">0</strong></span>
+        <span> COMBO <strong id="combo">0</strong></span>
+        <span> ACCURACY <strong id="accuracy">100%</strong></span>
+      </div>
+      <div class="stage">
+        <div class="character">♪</div>
+        <div class="lanes" id="lanes">
+          <div class="receptors">
+            <span>←</span><span>↓</span><span>↑</span><span>→</span>
+          </div>
+          <div id="notes"></div>
         </div>
-        <!-- GAMEPLAY SCREEN -->
-<section id="gameplay-screen" class="screen gameplay-screen" aria-label="Rhythm gameplay" hidden>
-  <div class="gameplay-topbar">
-    <button id="gameplay-back-button" class="secondary-button" type="button">
-      ← BACK
-    </button>
-
-    <div class="song-info">
-      <span id="gameplay-song-title">TEST SONG</span>
-      <span id="gameplay-difficulty">NORMAL</span>
-    </div>
-
-    <div class="gameplay-status">
-      <span id="gameplay-score">Score: 0</span>
-      <span id="gameplay-accuracy">Accuracy: 100%</span>
-    </div>
-  </div>
-
-  <div class="gameplay-stage">
-    <div class="stage-character opponent-character" aria-label="Opponent placeholder">
-      <div class="character-hair"></div>
-      <div class="character-face">
-        <span class="character-eye left-eye"></span>
-        <span class="character-eye right-eye"></span>
-        <span class="character-mouth"></span>
+        <div id="judgment">READY?</div>
       </div>
-      <div class="character-body"></div>
-      <span class="character-label">OPPONENT</span>
-    </div>
-
-    <div class="stage-character player-character" aria-label="Player placeholder">
-      <div class="character-hair"></div>
-      <div class="character-face">
-        <span class="character-eye left-eye"></span>
-        <span class="character-eye right-eye"></span>
-        <span class="character-mouth"></span>
-      </div>
-      <div class="character-body"></div>
-      <span class="character-label">PLAYER</span>
-    </div>
-  </div>
-
-  <div class="rhythm-area">
-    <div class="lane-container" id="lane-container" aria-label="Four rhythm lanes">
-      <div class="rhythm-lane" data-lane="0">
-        <div class="note-receptor receptor-left" data-receptor="0">←</div>
-      </div>
-
-      <div class="rhythm-lane" data-lane="1">
-        <div class="note-receptor receptor-down" data-receptor="1">↓</div>
-      </div>
-
-      <div class="rhythm-lane" data-lane="2">
-        <div class="note-receptor receptor-up" data-receptor="2">↑</div>
-      </div>
-
-      <div class="rhythm-lane" data-lane="3">
-        <div class="note-receptor receptor-right" data-receptor="3">→</div>
-      </div>
-    </div>
-
-    <div id="judgement-display" class="judgement-display" aria-live="polite"></div>
-    <div id="combo-display" class="combo-display">READY?</div>
-  </div>
-
-  <div class="gameplay-bottombar">
-    <div class="health-bar" aria-label="Health">
-      <div id="health-fill" class="health-fill"></div>
-    </div>
-
-    <span id="gameplay-combo">Combo: 0</span>
-    <span id="gameplay-misses">Misses: 0</span>
-
-    <button id="gameplay-pause-button" class="secondary-button" type="button">
-      PAUSE
-    </button>
-  </div>
-
-  <div id="gameplay-pause-overlay" class="gameplay-overlay" hidden>
-    <div class="overlay-panel">
-      <h2>PAUSED</h2>
-      <button id="gameplay-resume-button" class="primary-button" type="button">
-        RESUME
-      </button>
-      <button id="gameplay-restart-button" class="secondary-button" type="button">
-        RESTART
-      </button>
-      <button id="gameplay-quit-button" class="secondary-button" type="button">
-        QUIT SONG
-      </button>
-    </div>
-  </div>
-
-  <div id="gameplay-results-overlay" class="gameplay-overlay" hidden>
-    <div class="overlay-panel">
-      <h2 id="gameplay-results-title">SONG COMPLETE!</h2>
-      <p id="gameplay-results-summary">Your results will appear here.</p>
-      <button id="gameplay-retry-button" class="primary-button" type="button">
-        RETRY
-      </button>
-      <button id="gameplay-results-back-button" class="secondary-button" type="button">
-        BACK TO MENU
-      </button>
-    </div>
-  </div>
-</section>
-
-    </main>
-
-    <noscript>
-        <p class="noscript-message">
-            JavaScript is required to run this game.
-            Please enable JavaScript in your browser.
-        </p>
-    </noscript>
+      <div class="progress"><div id="progressFill"></div></div>
+      <button id="back">BACK TO MENU</button>
+    </section>
+  </main>
+  <script src="js/game.js"></script>
 </body>
 </html>
